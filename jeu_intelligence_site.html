@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeu d'Intelligence</title>
+<style>
+body {font-family: Arial, sans-serif; background:#0c0c0c; color:white; text-align:center; padding:40px;}
+h1 {color:#d4af37; margin-bottom:30px;}
+button {padding:12px 25px; margin:10px; border:none; border-radius:10px; cursor:pointer; background:#d4af37; color:black; font-weight:bold; transition:0.3s;}
+button:hover {background:#c19f4b;}
+#questionBox {font-size:22px; margin-bottom:20px;}
+#result {margin-top:20px; font-size:20px; height:40px;}
+#score {margin-top:20px; font-size:22px; color:#25D366;}
+</style>
+</head>
+<body>
+
+<h1>Jeu d'Intelligence</h1>
+<div id="questionBox"></div>
+<div id="buttons"></div>
+<div id="result"></div>
+<div id="score"></div>
+
+<script>
+const questions = [
+  {q: '2, 4, 8, 16, ?', options: [32, 24, 20], answer: 32},
+  {q: 'Si hier était lundi, demain sera ?', options: ['Mercredi', 'Jeudi', 'Vendredi'], answer: 'Mercredi'},
+  {q: '5 + 3 x 2 = ?', options: [16, 11, 13], answer: 11},
+  {q: 'Le mot manquant: chat, chien, lapin, ?', options: ['souris', 'poisson', 'oiseau'], answer: 'souris'},
+  {q: 'Quel est le prochain nombre ? 1, 1, 2, 3, 5, ?', options: [7, 8, 9], answer: 8},
+  {q: 'Si 3 pommes = 12 DA, combien 5 pommes ?', options: [20, 25, 15], answer: 20},
+  {q: 'Quelle couleur mélangée avec bleu donne vert ?', options: ['Rouge', 'Jaune', 'Noir'], answer: 'Jaune'},
+  {q: 'Quel nombre est pair ?', options: [11, 14, 17], answer: 14},
+  {q: 'Quelle lettre suit après D ?', options: ['E', 'F', 'C'], answer: 'E'},
+  {q: 'Si un train part à 10h et arrive à 14h, combien de temps dure le voyage ?', options: ['3h', '4h', '5h'], answer: '4h'},
+  {q: 'Je suis grand quand je suis jeune et petit quand je suis vieux. Qui suis-je ?', options: ['Une bougie', 'Un crayon', 'Une lampe'], answer: 'Une bougie'},
+  {q: 'Combien de côtés a un hexagone ?', options: [5, 6, 8], answer: 6},
+  {q: 'Si 10 + ? = 15, quel est le nombre manquant ?', options: [3, 5, 6], answer: 5},
+  {q: 'Quel mot est l’intrus ? Chien, Chat, Lapin, Avion', options: ['Chien', 'Lapin', 'Avion'], answer: 'Avion'},
+  {q: 'Quel est le prochain nombre ? 3, 6, 9, ?', options: [12, 11, 15], answer: 12},
+  {q: 'Combien de secondes dans une minute ?', options: [60, 100, 50], answer: 60},
+  {q: 'Si hier était vendredi, quel jour sera demain ?', options: ['Dimanche', 'Samedi', 'Lundi'], answer: 'Dimanche'},
+  {q: 'Quel nombre est impair ?', options: [22, 31, 40], answer: 31},
+  {q: 'Combien de couleurs dans un arc-en-ciel ?', options: [6, 7, 8], answer: 7},
+  {q: 'Quel est l’intrus ? Pomme, Banane, Voiture, Orange', options: ['Pomme', 'Banane', 'Voiture'], answer: 'Voiture'}
+];
+
+let current = 0;
+let score = 0;
+
+function showQuestion(){
+  if(current >= questions.length){
+    document.getElementById('questionBox').textContent = '🎉 Jeu terminé !';
+    document.getElementById('buttons').innerHTML = '';
+    document.getElementById('score').textContent = 'Score: ' + score + ' / ' + questions.length;
+    return;
+  }
+  const q = questions[current];
+  document.getElementById('questionBox').textContent = q.q;
+  let btnHTML = '';
+  q.options.forEach(opt => {
+    btnHTML += `<button onclick='checkAnswer(${typeof opt === "number" ? opt : `\"${opt}\"`})'>${opt}</button>`;
+  });
+  document.getElementById('buttons').innerHTML = btnHTML;
+  document.getElementById('result').textContent = '';
+}
+
+function checkAnswer(ans){
+  const correctAnswer = questions[current].answer;
+  if(ans === correctAnswer){
+    document.getElementById('result').textContent = '✅ Correct !';
+    document.getElementById('result').style.color = '#25D366';
+    score++;
+  } else {
+    document.getElementById('result').textContent = `❌ Faux ! La bonne réponse est: ${correctAnswer}`;
+    document.getElementById('result').style.color = '#ff4d4d';
+  }
+  current++;
+  setTimeout(showQuestion, 2000);
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
